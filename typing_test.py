@@ -6,6 +6,7 @@ class Typing_test:
         self.all_words = word_list
         self.num_words = num_words
         self.test_words = [] 
+        self.full_text = ""
         self.current_index = 0
         self.start_time = None
         self.end_time = None

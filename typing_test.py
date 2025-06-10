@@ -20,6 +20,7 @@ class Typing_test:
         self.current_index = 0
         self.start_time = None
         self.typed_chars = 0
+        self.typed_text = ""
         self.correct_chars = 0
         self.is_active = True
         self.is_completed = False
@@ -27,24 +28,27 @@ class Typing_test:
 
     
     def handle_keystroke(self, typed_text):
-        if not self.is_active: 
+        if not self.is_active or not self.is_completed: 
             return
         
-        if self.start_time is None: 
+        if self.start_time is None and typed_text: 
             self.start_time = time.time()
 
         if self.current_index >= len(self.test_words):
             return "test completed"
 
-        current_word = self.test_words[self.current_index]
-        self.typed_chars += len(typed_text)
+        self.typed_text = typed_text
 
-        if typed_text == current_word: 
-            self.current_index += 1 
-            self.correct_chars += len(current_word)
+        self.correct_chars = 0 
+        min_lenght = min(len(typed_text),len(self.full_text))
 
+        for i in range(min_lenght): 
+            if typed_text[i] == self.full_text[i]:
+                self.correct_chars = i + 1
+            else : 
+                break
 
-        if self.current_index >= len(self.test_words):
+        if self.current_index >= len(self.test_words) and self.correct_chars == len(self.full_text):
             self.complete_test()
             return "test completed"
 
